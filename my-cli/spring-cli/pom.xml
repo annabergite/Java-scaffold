@@ -30,7 +30,25 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-<!--            <scope>test</scope>-->
+            <!--            <scope>test</scope>-->
+        </dependency>
+        <!-- 在项⽬的pom.xml 配置⽂件中添加 JedisPool连接池依赖 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.11.1</version>
+        </dependency>
+        <!-- //.在项⽬的pom.xml⽂件中导⼊Java和Redis打交道的API客户端依赖-->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>2.7.18</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

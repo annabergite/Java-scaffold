@@ -17,7 +17,22 @@ import java.util.Iterator;
 public class CollectionTest {
 
     @Test
-    public void test2(){
+    public void tests() {
+        String a = "abcde";
+        String s = a.replaceAll("c", "f");
+        System.out.println(s);
+    }
+
+    @Test
+    public void juctests() {
+        for (int i = 0; i < 100; i++) {
+            int j = 0;
+            System.out.println((j++) + (++j));
+        }
+    }
+
+    @Test
+    public void test2() {
         Collection coll = new ArrayList();
         coll.add(1);
         coll.add(2);
@@ -33,8 +48,9 @@ public class CollectionTest {
 //		coll.add(other);
         System.out.println("coll集合元素的个数：" + coll.size());
     }
+
     @Test
-    public void test5(){
+    public void test5() {
         Collection coll = new ArrayList();
         coll.add(1);
         coll.add(2);
@@ -53,7 +69,7 @@ public class CollectionTest {
     }
 
     @Test
-    public void test02(){
+    public void test02() {
         Collection<String> coll = new ArrayList<>();
         coll.add("陈琦");
         coll.add("李晨");
@@ -64,9 +80,9 @@ public class CollectionTest {
 //		coll.remove(o)//无法编写
 
         Iterator<String> iterator = coll.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             String element = iterator.next();
-            if(element.length()==3){
+            if (element.length() == 3) {
 //				coll.remove(element);//错误的
                 iterator.remove();
             }
