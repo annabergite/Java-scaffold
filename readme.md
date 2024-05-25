@@ -19,3 +19,8 @@
 用来存储自己的Spring Boot框架
 
 制作不易。如果真的喜欢的话给一个star吧
+
+## 5、maven-project
+
+计算加一些maven的父子程序，主要管spring的，像是整合websocket、mongoDB、ShardingSphere等，单独搞一个在这里
+
