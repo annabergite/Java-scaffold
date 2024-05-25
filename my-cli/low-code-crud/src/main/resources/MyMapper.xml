@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chashugu.lowcodecrud.MyMapper">
+
+    <select id="getTemplate" resultType="java.lang.String">
+        select column_name
+        FROM information_schema.columns
+        WHERE table_schema = 'xxxx'
+          AND table_name = #{tableCode}
+    </select>
+
+    <select id="getDimList" resultType="com.chashugu.lowcodecrud.model.TupleVO">
+        select sys_code `key`, sys_name 'value'
+        from meta_info_mapping
+        where sys_dim_class = #{dimClass}
+        order by cast(sys_code as signed)
+    </select>
+
+    <select id="getData" resultType="java.util.LinkedHashMap">
+        select t1.*
+        from ${param.tableCode} t1
+        <where>
+            <if test="param.filter != null">
+                <foreach collection="param.filter" item="item" separator=" ">
+                    <choose>
+                        <when test="item.columnCode == 'push_flag'">
+                        </when>
+                        <when test="item.columnCode == 'approval_flag'">
+                        </when>
+                        <otherwise>
+                            <choose>
+                                <when test="item.type == 'DATE'">
+                                    <if test="item.startTime != null">
+                                        and date(t1.${item.columnCode}) = date(#{item.startTime})
+                                    </if>
+                                </when>
+                                <when test="item.type == 'DATERANGE'">
+                                    <if test="item.startTime != null and item.endTime != null">
+                                        and date(t1.${item.columnCode}) between date(#{item.startTime}) and
+                                        date(#{item.endTime})
+                                    </if>
+                                </when>
+                                <when test="item.type == 'DATETIME'">
+                                    <if test="item.startTime != null">
+                                        and str_to_date(t1.${item.columnCode},'%Y%m%d %H%i%s') =
+                                        timestamp(#{item.startTime})
+                                    </if>
+                                </when>
+                                <when test="item.type == 'DATETIMERANGE'">
+                                    <if test="item.startTime != null and item.endTime != null">
+                                        and str_to_date(t1.${item.columnCode},'%Y%m%d %H%i%s') between
+                                        timestamp(#{item.startTime}) and timestamp(#{item.endTime})
+                                    </if>
+                                </when>
+                                <otherwise>
+                                    <if test="item.value != null and item.value != ''">
+                                        and t1.${item.columnCode}=#{item.value}
+                                    </if>
+                                </otherwise>
+                            </choose>
+                        </otherwise>
+                    </choose>
+
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <insert id="addOne">
+        insert into ${param.tableCode}
+        (
+        <foreach collection="param.info" index="col" separator=",">
+            ${col}
+        </foreach>
+        )
+        values
+        (
+        <foreach collection="param.info" item="value" separator=",">
+            #{value}
+        </foreach>
+        )
+    </insert>
+
+    <update id="edit">
+        update ${param.tableCode}
+        set
+        <foreach collection="param.info" index="key" item="value" separator=",">
+            ${key}=#{value}
+        </foreach>
+        where only_key=#{id}
+    </update>
+
+    <delete id="del">
+        delete from ${param.tableCode}
+        where only_key in
+        <foreach collection="param.ids" open="(" close=")" item="item" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <insert id="importData">
+        insert into ${tableCode}
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+            <foreach collection="item" item="data" separator=",">
+                #{data}
+            </foreach>
+            )
+        </foreach>
+    </insert>
+</mapper>

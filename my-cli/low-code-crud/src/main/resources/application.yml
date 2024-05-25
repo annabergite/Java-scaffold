@@ -1,0 +1,43 @@
+
+
+spring:
+  application:
+    name: low-code-crud
+  datasource:
+    dynamic:
+      # ?????
+      primary: master
+      datasource:
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/report?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+          username: root
+          password: 123456
+      druid:
+        initialSize: 10
+        minIdle: 10
+        maxActive: 200
+        max-wait: 60000
+        pool-prepared-statements: true
+        max-pool-prepared-statement-per-connection-size: 20
+        validation-query: SELECT 'x'
+        test-on-borrow: false
+        test-on-return: false
+        test-while-idle: true
+        time-between-eviction-runs-millis: 60000  #???????????????????????????????
+        min-evictable-idle-time-millis: 300000    #??????????????????????
+        filters: stat,wall
+        wall:
+          comment-allow: true
+          multiStatementAllow: true
+          noneBaseStatementAllow: true
+knife4j:
+  enable: true
+server:
+  port: 9000
+
+# mybatis config
+mybatis-plus:
+  mapper-locations: mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
