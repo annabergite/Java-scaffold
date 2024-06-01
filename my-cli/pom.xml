@@ -8,6 +8,7 @@
   <modules>
     <module>spring-cli</module>
     <module>java-source</module>
+    <module>java-guava-lang3-pool2</module>
   </modules>
 
   <version>1.0.0</version>
